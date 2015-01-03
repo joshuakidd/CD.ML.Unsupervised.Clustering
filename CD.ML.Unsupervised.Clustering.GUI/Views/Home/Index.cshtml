@@ -1,0 +1,17 @@
+﻿@using System.Web.Optimization
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="container" ng-controller="clusteringCtrl">
+    <div><button ng-click="fit()">Fit</button></div>    
+    <ul id="clustering"><li ng-repeat="n in notifications">{{n.Iteration}}&nbsp;&nbsp;{{n.Cost}}</li></ul>
+</div>
+    
+@section scripts{
+    
+    <script src="~/signalr/hubs"></script>
+    @Scripts.Render("~/bundles/app")
+
+}

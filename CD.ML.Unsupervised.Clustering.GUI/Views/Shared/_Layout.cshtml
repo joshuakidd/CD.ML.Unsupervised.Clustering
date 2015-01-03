@@ -1,0 +1,27 @@
+﻿@using System.Web.Optimization
+
+<!DOCTYPE html>
+
+<html ng-app="clusteringApp">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <base href="/">
+
+    @Styles.Render("~/styles/app")
+    @RenderSection("styles", required: false)
+
+</head>
+<body>
+    @RenderBody()
+
+    @Scripts.Render(
+            "~/bundles/jquery",
+            "~/bundles/angular",
+            "~/bundles/bootstrap",
+            "~/bundles/d3",
+            "~/bundles/signalr")
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

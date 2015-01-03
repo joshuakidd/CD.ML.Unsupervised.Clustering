@@ -1,0 +1,47 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="container"><ul id="clustering"></ul></div>
+    
+@section scripts{
+    
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+        $(function () {
+            var kmeans = $.connection.kmeansHub;
+            var size = 1000, clusters = 3, sleep = 500; 
+
+            kmeans.client.stepNotification = function (step) {
+
+                var encodedIteration = $('<span />').text(step.Iteration).html();
+                var encodedCost = $('<span />').text(step.Cost).html();
+
+                $('#clustering').append('<li><strong>' + encodedIteration
+                    + '</strong>:&nbsp;&nbsp;' + encodedCost + '</li>');
+            };
+
+            kmeans.client.failureNotification = function (failure) {
+                alert("failure");
+            };
+
+            kmeans.client.completeNotification = function (complete) {
+                alert("Complete");
+            };
+
+            // start connection 
+            $.connection.hub.start().done(function () {
+                
+                // retrieve a random sample of data 
+                kmeans.server.sample(size).done(function (data) {
+
+                    // begin fitting the data 
+                    kmeans.server.fit(data, clusters, sleep);
+                });
+                
+            });
+        }); 
+    </script>
+
+}
